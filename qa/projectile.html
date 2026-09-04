@@ -1,0 +1,30 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><title>포물선 로직 검증 · 렌더링 제외</title>
+<style>body{font:16px/1.6 system-ui;background:#0f1729;color:#edf6ff;padding:24px}#fixtures{display:none}li{margin:10px}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js"}}</script>
+<h1>포물선 로직 검증</h1><p>실제 포물선 모듈과 Three.js 장면을 사용합니다. WebGL 렌더링은 검증하지 않습니다.</p><ol id="results"></ol>
+<div id="fixtures"><div id="panel"></div><div id="environment-label"></div><div id="environment-dot"></div><div id="trajectory-legend"></div></div>
+<script type="module">
+import * as THREE from 'three';
+import {createProjectile} from '../js/sims/projectile.js';
+const results=document.getElementById('results');
+const add=(name,error)=>{const row=document.createElement('li');row.textContent=(error?'FAIL: ':'PASS: ')+name+(error?' — '+error.message:'');results.append(row);};
+function assert(value,message){if(!value)throw new Error(message);}
+const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(45,1.6,.1,12000);
+const flags=[false,false,false];const panel=document.getElementById('panel');
+const simulation=createProjectile({scene,camera,controls:{target:new THREE.Vector3(),update(){}},panel,missionFlags:flags,award(i){flags[i]=true},notify(){},setMessage(){}});
+const $=(id)=>document.getElementById(id);const click=(id)=>$(id).click();
+function set(id,value){$(id).value=String(value);$(id).dispatchEvent(new Event('input'));}
+function finish(){for(let i=0;i<8000&&!simulation.getContext().currentFlight?.finished;i++)simulation.update(1/120);}
+function run(name,fn){try{fn();add(name);}catch(e){add(name,e);}}
+run('Three.js 장면 생성 · 카메라 범위 · 10m 격자',()=>{simulation.fitCamera();assert(scene.children.length>0,'장면 없음');assert(camera.position.length()>0,'카메라 없음');});
+run('45° 발사 미션과 지구 기준값',()=>{click('launch-button');assert(flags[0],'45° 미션 실패');finish();assert(Math.abs(simulation.getContext().lastResult.range-91.83673469387755)<1e-8,'사거리 오차');assert($('range-readout').textContent==='91.8m','측정 표시 오류');});
+run('일시정지 후 이어서 실행',()=>{click('launch-button');for(let i=0;i<40;i++)simulation.update(1/120);click('launch-button');const t=simulation.getContext().currentFlight.time;simulation.update(1/120);assert(simulation.getContext().currentFlight.time===t,'일시정지 중 시간 증가');click('launch-button');simulation.update(1/120);assert(simulation.getContext().currentFlight.time>t,'다시 실행 실패');finish();});
+run('같은 각도·속도의 지구/달 비교 미션',()=>{panel.querySelector('[data-gravity="moon"]').click();click('launch-button');finish();assert(flags[2],'비교 미션 실패');assert(Math.abs(simulation.getContext().lastResult.range-562.5)<1e-8,'달 사거리 오차');});
+run('100m 과녁 명중과 전체 별 3개',()=>{panel.querySelector('[data-gravity="earth"]').click();set('speed-slider',31.3);click('launch-button');finish();assert(flags.every(Boolean),'별 3개 미달성');assert($('mission-count').textContent==='3 / 3','미션 표시 불일치');});
+run('완료 궤적 3개 제한과 서로 다른 색상',()=>{assert($('trajectory-legend').children.length===3,'궤적 개수 오류');const colors=[...$('trajectory-legend').querySelectorAll('i')].map(x=>x.style.backgroundColor);assert(new Set(colors).size===3,'색상 중복');});
+run('비행 중 초기화는 미완료 궤적만 제거',()=>{click('launch-button');simulation.update(1/120);click('reset-button');assert(simulation.getContext().currentFlight===null,'초기화 실패');assert($('trajectory-legend').children.length===2,'완료된 궤적까지 제거됨');assert(!$('angle-slider').disabled,'입력 잠금 해제 실패');});
+run('궤적 지우기',()=>{click('clear-trails');assert($('trajectory-legend').children.length===0,'궤적이 남음');});
+run('0°의 즉시 착지 · 90°의 수직 발사',()=>{set('angle-slider',0);click('launch-button');assert(simulation.getContext().currentFlight.finished,'0° 종료 실패');assert(simulation.getContext().lastResult.range===0,'0° 사거리 오류');set('angle-slider',90);click('launch-button');finish();assert(simulation.getContext().lastResult.range===0,'90° 사거리 오류');});
+run('장면 종료 시 자원 및 이벤트 정리',()=>{simulation.dispose();assert(scene.children.length===0,'장면이 남음');});
+document.title=[...results.children].some(x=>x.textContent.startsWith('FAIL'))?'FAIL — 포물선 로직':'PASS — 포물선 로직 10개';
+</script></html>

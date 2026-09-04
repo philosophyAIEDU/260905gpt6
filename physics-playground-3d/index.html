@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1729">
+  <meta name="description" content="직접 바꾸고, 움직이고, 발견하는 물리 놀이터. 포물선 운동부터 행성 궤도까지 3D로 탐구해 보세요.">
+  <title>물리 놀이터 3D</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚀%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+  <!-- Three.js와 OrbitControls는 반드시 같은 버전을 사용합니다. 설치나 빌드는 필요 없습니다. -->
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#home-title">본문으로 이동</a>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="물리 놀이터 홈"><span class="brand-icon" aria-hidden="true">✳</span><span>물리 놀이터 <b>3D</b></span></a>
+    <div class="header-actions">
+      <span class="key-help"><kbd>1</kbd>–<kbd>4</kbd> 실험 이동 <span class="key-separator">/</span> <kbd>F</kbd> 전체화면</span>
+      <span class="total-stars" aria-label="전체 미션 달성"><span aria-hidden="true">★</span> <b id="total-stars">0</b><span>/ 12</span></span>
+      <button id="settings-button" class="icon-button" aria-label="선생님 설정" title="선생님 설정">⚙</button>
+    </div>
+  </header>
+
+  <main id="home-screen" class="home-screen">
+    <section class="home-intro">
+      <div class="eyebrow"><span></span> 직접 해보는 과학 실험실</div>
+      <h1 id="home-title" tabindex="-1">🚀 물리 놀이터 <em>3D</em></h1>
+      <p>각도를 바꾸고, 공을 굴리고, 별 주위를 여행해 보세요.<br class="mobile-break"> 작은 호기심이 발견이 되는 곳.</p>
+    </section>
+    <section class="experiment-grid" aria-label="물리 실험 선택">
+      <article class="experiment-card projectile-card">
+        <div class="card-top"><span class="experiment-number">EXPERIMENT 01</span><span class="card-stars" data-stars="projectile">☆ ☆ ☆ <b>0/3</b></span></div>
+        <div class="card-diagram" aria-hidden="true">
+          <svg viewBox="0 0 520 145"><defs><linearGradient id="arcGradient"><stop stop-color="#64e6d1"/><stop offset="1" stop-color="#effff9"/></linearGradient></defs><path class="diagram-grid" d="M20 122H500M20 82H500M20 42H500M60 20V130M160 20V130M260 20V130M360 20V130M460 20V130"/><path d="M62 120Q258 -70 452 120" fill="none" stroke="url(#arcGradient)" stroke-width="3" stroke-dasharray="7 8"/><path d="M62 120L102 78M91 81L102 78L101 90" stroke="#63e6ce" stroke-width="3" fill="none"/><circle cx="262" cy="26" r="10" fill="#ffe28d"/><circle cx="262" cy="26" r="19" fill="#ffe28d" opacity=".1"/><path d="M62 120H452" stroke="#4f6c76"/><circle cx="452" cy="120" r="13" fill="none" stroke="#eaa38b" stroke-width="3"/><circle cx="452" cy="120" r="5" fill="#eaa38b"/><text x="88" y="118" fill="#a5c4ce" font-size="15">θ</text><text x="410" y="143" fill="#91a9bb" font-size="13">100 m</text></svg>
+        </div>
+        <div class="card-title"><span aria-hidden="true">🎯</span><h2>포물선 운동</h2></div>
+        <p>각도를 바꾸면 얼마나 멀리 날아갈까?</p>
+        <button class="card-button" data-open="projectile">이 실험 하러 가기 <span aria-hidden="true">↗</span></button>
+      </article>
+      <article class="experiment-card collision-card">
+        <div class="card-top"><span class="experiment-number">EXPERIMENT 02</span><span class="card-stars" data-stars="collision">☆ ☆ ☆ <b>0/3</b></span></div>
+        <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><path class="diagram-grid" d="M20 122H500M20 82H500M20 42H500M60 20V130M160 20V130M260 20V130M360 20V130M460 20V130"/><path d="M55 121H468" stroke="#5a6988" stroke-width="2"/><circle cx="163" cy="80" r="39" fill="#ef8d80" fill-opacity=".14" stroke="#ef8d80" stroke-width="2"/><circle cx="355" cy="91" r="28" fill="#74abff" fill-opacity=".17" stroke="#74abff" stroke-width="2"/><path d="M218 79H285M273 71L285 79L273 87" stroke="#eab59f" stroke-width="3" fill="none"/><text x="156" y="87" fill="#ffb8a9" font-size="22">A</text><text x="348" y="98" fill="#a3c9ff" font-size="22">B</text></svg></div>
+        <div class="card-title"><span aria-hidden="true">💥</span><h2>충돌과 운동량</h2></div>
+        <p>무거운 공이 가벼운 공을 치면 어떻게 될까?</p>
+        <button class="card-button" data-open="collision" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">2단계 준비 중</span></button>
+      </article>
+      <article class="experiment-card coaster-card">
+        <div class="card-top"><span class="experiment-number">EXPERIMENT 03</span><span class="card-stars" data-stars="coaster">☆ ☆ ☆ <b>0/3</b></span></div>
+        <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><path class="diagram-grid" d="M20 122H500M20 82H500M20 42H500M60 20V130M160 20V130M260 20V130M360 20V130M460 20V130"/><path d="M45 30C90 30 106 122 160 122H300C363 122 363 31 311 31C259 31 259 122 315 122C390 122 403 60 449 65L483 91" fill="none" stroke="#f8d889" stroke-width="3"/><path d="M45 40V122M88 62V122M311 38V122M449 72V122" stroke="#f8d889" opacity=".16" stroke-width="2"/><circle cx="75" cy="39" r="10" fill="#f8d889"/><circle cx="75" cy="39" r="18" fill="#f8d889" opacity=".1"/></svg></div>
+        <div class="card-title"><span aria-hidden="true">🎢</span><h2>롤러코스터 에너지</h2></div>
+        <p>왜 처음보다 더 높이 못 올라갈까?</p>
+        <button class="card-button" data-open="coaster" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">2단계 준비 중</span></button>
+      </article>
+      <article class="experiment-card orbit-card">
+        <div class="card-top"><span class="experiment-number">EXPERIMENT 04</span><span class="card-stars" data-stars="orbit">☆ ☆ ☆ <b>0/3</b></span></div>
+        <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><ellipse cx="264" cy="76" rx="162" ry="49" transform="rotate(-12 264 76)" fill="none" stroke="#ada9ed" stroke-width="2" stroke-dasharray="5 6"/><circle cx="211" cy="87" r="36" fill="#fddd8c" opacity=".07"/><circle cx="211" cy="87" r="25" fill="#fddd8c" opacity=".12"/><circle cx="211" cy="87" r="17" fill="#fddd8c"/><circle cx="394" cy="29" r="10" fill="#b8b2ff"/><circle cx="85" cy="42" r="2" fill="#71869e"/><circle cx="452" cy="91" r="2" fill="#71869e"/><circle cx="336" cy="117" r="1.5" fill="#b9c1df"/></svg></div>
+        <div class="card-title"><span aria-hidden="true">🪐</span><h2>중력과 행성 궤도</h2></div>
+        <p>달은 왜 떨어지지 않을까?</p>
+        <button class="card-button" data-open="orbit" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">3단계 준비 중</span></button>
+      </article>
+    </section>
+    <footer class="home-footer"><span>관찰하고 · 질문하고 · 발견하세요</span><span>각 실험의 미션을 달성하면 <b>★</b> 을 모을 수 있어요.</span></footer>
+  </main>
+
+  <!-- 공통 실험 화면: 장면만 교체하고 WebGL 렌더러와 카메라는 재사용합니다. -->
+  <main id="simulation-screen" class="simulation-screen" hidden>
+    <div class="experiment-header"><button id="home-button" class="back-button">← 홈으로</button><div><span id="sim-number" class="experiment-number">EXPERIMENT 01</span><h1 id="sim-title" tabindex="-1">포물선 운동</h1></div><span class="experiment-mode">3D 실험실</span></div>
+    <div class="simulation-layout">
+      <section class="stage" aria-label="3D 실험 장면">
+        <div id="canvas-container"></div>
+        <div class="scene-top"><div class="scene-label"><span id="environment-dot"></span><span id="environment-label">지구 · 중력 9.8 m/s²</span></div><button id="camera-reset" class="subtle-button" aria-label="전체 궤적이 보이도록 시점 맞추기">⌖ 시점 맞추기</button></div>
+        <div id="scene-message" class="scene-message" role="status">각도와 속도를 정하고 발사해 보세요!</div>
+        <div id="trajectory-legend" class="trajectory-legend" aria-label="비교 궤적"></div>
+        <div class="scene-bottom"><span>드래그로 회전 · 휠로 확대</span><span>격자 한 칸 <b>10 m</b></span></div>
+        <div id="canvas-error" class="canvas-error" hidden><h2>3D 화면을 불러오지 못했어요</h2><p id="canvas-error-detail">인터넷 연결을 확인한 뒤 새로고침해 주세요.</p><button id="retry-button" class="primary-button">다시 불러오기</button></div>
+      </section>
+      <aside class="control-panel" aria-label="실험 조작과 측정값"><div id="sim-controls"></div></aside>
+    </div>
+    <div class="teacher-dock"><button id="ai-open-button" class="teacher-button"><span aria-hidden="true">💬</span> 물리 선생님에게 물어보기 <span aria-hidden="true">↗</span></button></div>
+  </main>
+
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><div class="dialog-header"><h2 id="settings-title">⚙ 선생님 설정</h2><button id="settings-close" class="icon-button" aria-label="설정 닫기">×</button></div><p>AI 물리 선생님과 API 키 설정은 4단계에서 연결됩니다.</p><p class="quiet">지금은 API 키 없이 포물선 운동을 자유롭게 실험할 수 있어요.</p></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">이 실험실을 사용하려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "physics-playground-browser-check",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "node preview-server.mjs" }
+}
