@@ -1,12 +1,13 @@
+import { initTeacher } from './ai-teacher.js';
 // ===== 화면 전환 · 공통 Three.js 환경 · 고정 시간 간격 · 미션 저장 =====
 // 숫자키/홈 버튼/설정 등 화면 공통 동작은 이 파일에서 관리합니다.
 const FIXED_DT = 1 / 120;
 const STORAGE_KEY = 'physics_playground_missions';
 const SIMS = {
   projectile: { title: '포물선 운동', number: '01', ready: true },
-  collision: { title: '충돌과 운동량', number: '02', ready: false, stage: 2 },
-  coaster: { title: '롤러코스터 에너지', number: '03', ready: false, stage: 2 },
-  orbit: { title: '중력과 행성 궤도', number: '04', ready: false, stage: 3 },
+  collision: { title: '충돌과 운동량', number: '02', ready: true },
+  coaster: { title: '롤러코스터 에너지', number: '03', ready: true },
+  orbit: { title: '중력과 행성 궤도', number: '04', ready: true },
 };
 const $ = (id) => document.getElementById(id);
 let missions = readMissions();
@@ -134,16 +135,24 @@ async function openSimulation(id) {
   $('sim-number').textContent = `EXPERIMENT ${info.number}`;
   $('sim-controls').textContent = '실험 도구를 준비하고 있어요…';
   $('trajectory-legend').replaceChildren();
+  document.querySelector('.stage').dataset.sim = id;
+  $('trajectory-legend').hidden = id !== 'projectile';
+  document.querySelector('.scene-bottom').lastElementChild.textContent = id === 'projectile' ? '격자 한 칸 10 m' : id === 'coaster' ? '질량 1 kg · 중력 9.8 m/s²' : id === 'collision' ? '오른쪽 + · 왼쪽 −' : '교육용 크기·질량';
+  const labels = {collision:'충돌과 운동량 보존',coaster:'위치 + 운동 + 열 = 일정',orbit:'중력과 행성 궤도'};
+  if(labels[id]) $('environment-label').textContent=labels[id];
   $('scene-message').textContent = '3D 실험실을 준비하고 있어요…';
   $('scene-message').classList.remove('success');
   history.replaceState(null, '', `#${id}`);
   window.scrollTo({ top: 0, behavior: 'instant' });
   try {
     const ctx = await getEngine();
-    const { createProjectile } = await import('./sims/projectile.js');
+    const module = await import(`./sims/${id}.js`);
+    const factory = module[{projectile:'createProjectile',collision:'createCollision',coaster:'createCoaster',orbit:'createOrbit'}[id]];
     if (version !== viewVersion) return;
     ctx.scene = new ctx.THREE.Scene();
-    activeSim = createProjectile({
+    ctx.controls.maxPolarAngle = Math.PI / 2 - 0.02;
+    ctx.renderer.domElement.setAttribute('aria-label', `${info.title} 3D 장면. 마우스 드래그로 회전하고 휠로 확대합니다.`);
+    activeSim = factory({
       ...ctx,
       panel: $('sim-controls'),
       missionFlags: missions[id],
@@ -213,9 +222,13 @@ $('camera-reset').addEventListener('click', () => activeSim?.fitCamera());
 $('retry-button').addEventListener('click', () => location.reload());
 $('settings-button').addEventListener('click', () => { activeSim?.pause?.(); $('settings-dialog').showModal(); });
 $('settings-close').addEventListener('click', () => $('settings-dialog').close());
-$('ai-open-button').addEventListener('click', () => showToast('선생님 설정에서 API 키를 먼저 등록해 주세요. AI 연결은 4단계에서 완성됩니다.'));
+initTeacher({getContext:getCurrentContext,notify:showToast,pauseSimulation:()=>activeSim?.pause?.(),resetRecords(){
+  try{localStorage.removeItem(STORAGE_KEY);}catch{}
+  missions=Object.fromEntries(Object.keys(SIMS).map(id=>[id,[false,false,false]]));
+  const id=currentId;refreshStars();if(id)openSimulation(id);
+}});
 document.addEventListener('keydown', async (event) => {
-  if (event.ctrlKey || event.metaKey || event.altKey || event.repeat || event.target.closest('input,textarea,select,[contenteditable=true]') || $('settings-dialog').open) return;
+  if (event.ctrlKey || event.metaKey || event.altKey || event.repeat || event.target.closest('input,textarea,select,[contenteditable=true]') || $('settings-dialog').open || $('ai-panel').classList.contains('is-open')) return;
   if (/^[1-4]$/.test(event.key)) openSimulation(Object.keys(SIMS)[Number(event.key) - 1]);
   if (event.key.toLowerCase() === 'f') {
     event.preventDefault();

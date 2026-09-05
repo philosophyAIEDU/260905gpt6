@@ -45,21 +45,21 @@
         <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><path class="diagram-grid" d="M20 122H500M20 82H500M20 42H500M60 20V130M160 20V130M260 20V130M360 20V130M460 20V130"/><path d="M55 121H468" stroke="#5a6988" stroke-width="2"/><circle cx="163" cy="80" r="39" fill="#ef8d80" fill-opacity=".14" stroke="#ef8d80" stroke-width="2"/><circle cx="355" cy="91" r="28" fill="#74abff" fill-opacity=".17" stroke="#74abff" stroke-width="2"/><path d="M218 79H285M273 71L285 79L273 87" stroke="#eab59f" stroke-width="3" fill="none"/><text x="156" y="87" fill="#ffb8a9" font-size="22">A</text><text x="348" y="98" fill="#a3c9ff" font-size="22">B</text></svg></div>
         <div class="card-title"><span aria-hidden="true">💥</span><h2>충돌과 운동량</h2></div>
         <p>무거운 공이 가벼운 공을 치면 어떻게 될까?</p>
-        <button class="card-button" data-open="collision" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">2단계 준비 중</span></button>
+        <button class="card-button" data-open="collision">이 실험 하러 가기 <span aria-hidden="true">↗</span></button>
       </article>
       <article class="experiment-card coaster-card">
         <div class="card-top"><span class="experiment-number">EXPERIMENT 03</span><span class="card-stars" data-stars="coaster">☆ ☆ ☆ <b>0/3</b></span></div>
         <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><path class="diagram-grid" d="M20 122H500M20 82H500M20 42H500M60 20V130M160 20V130M260 20V130M360 20V130M460 20V130"/><path d="M45 30C90 30 106 122 160 122H300C363 122 363 31 311 31C259 31 259 122 315 122C390 122 403 60 449 65L483 91" fill="none" stroke="#f8d889" stroke-width="3"/><path d="M45 40V122M88 62V122M311 38V122M449 72V122" stroke="#f8d889" opacity=".16" stroke-width="2"/><circle cx="75" cy="39" r="10" fill="#f8d889"/><circle cx="75" cy="39" r="18" fill="#f8d889" opacity=".1"/></svg></div>
         <div class="card-title"><span aria-hidden="true">🎢</span><h2>롤러코스터 에너지</h2></div>
         <p>왜 처음보다 더 높이 못 올라갈까?</p>
-        <button class="card-button" data-open="coaster" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">2단계 준비 중</span></button>
+        <button class="card-button" data-open="coaster">이 실험 하러 가기 <span aria-hidden="true">↗</span></button>
       </article>
       <article class="experiment-card orbit-card">
         <div class="card-top"><span class="experiment-number">EXPERIMENT 04</span><span class="card-stars" data-stars="orbit">☆ ☆ ☆ <b>0/3</b></span></div>
         <div class="card-diagram" aria-hidden="true"><svg viewBox="0 0 520 145"><ellipse cx="264" cy="76" rx="162" ry="49" transform="rotate(-12 264 76)" fill="none" stroke="#ada9ed" stroke-width="2" stroke-dasharray="5 6"/><circle cx="211" cy="87" r="36" fill="#fddd8c" opacity=".07"/><circle cx="211" cy="87" r="25" fill="#fddd8c" opacity=".12"/><circle cx="211" cy="87" r="17" fill="#fddd8c"/><circle cx="394" cy="29" r="10" fill="#b8b2ff"/><circle cx="85" cy="42" r="2" fill="#71869e"/><circle cx="452" cy="91" r="2" fill="#71869e"/><circle cx="336" cy="117" r="1.5" fill="#b9c1df"/></svg></div>
         <div class="card-title"><span aria-hidden="true">🪐</span><h2>중력과 행성 궤도</h2></div>
         <p>달은 왜 떨어지지 않을까?</p>
-        <button class="card-button" data-open="orbit" aria-disabled="true">이 실험 하러 가기 <span class="coming-label">3단계 준비 중</span></button>
+        <button class="card-button" data-open="orbit">이 실험 하러 가기 <span aria-hidden="true">↗</span></button>
       </article>
     </section>
     <footer class="home-footer"><span>관찰하고 · 질문하고 · 발견하세요</span><span>각 실험의 미션을 달성하면 <b>★</b> 을 모을 수 있어요.</span></footer>
@@ -82,7 +82,21 @@
     <div class="teacher-dock"><button id="ai-open-button" class="teacher-button"><span aria-hidden="true">💬</span> 물리 선생님에게 물어보기 <span aria-hidden="true">↗</span></button></div>
   </main>
 
-  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><div class="dialog-header"><h2 id="settings-title">⚙ 선생님 설정</h2><button id="settings-close" class="icon-button" aria-label="설정 닫기">×</button></div><p>AI 물리 선생님과 API 키 설정은 4단계에서 연결됩니다.</p><p class="quiet">지금은 API 키 없이 포물선 운동을 자유롭게 실험할 수 있어요.</p></dialog>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-header"><h2 id="settings-title">⚙ 선생님 설정</h2><button id="settings-close" class="icon-button" aria-label="설정 닫기">×</button></div>
+    <p>AI 물리 선생님을 쓰려면 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>에서 발급받은 API 키가 필요합니다.</p>
+    <p class="quiet">키는 이 컴퓨터의 브라우저에 저장됩니다. 질문할 때 인증을 위해 키와 질문·현재 실험 정보가 Google Gemini API로 전송됩니다.</p>
+    <label for="api-key">Gemini API 키</label><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="API 키 입력">
+    <div class="action-row"><button id="save-api-key" class="primary-button">저장</button><button id="delete-api-key" class="secondary-button">키 삭제</button></div><p id="key-status" class="quiet" role="status"></p>
+    <hr class="section-divider"><button id="reset-records" class="secondary-button">모든 기록 초기화</button><p class="unit-note">획득한 별·대화·학년 설정을 초기화합니다.</p>
+  </dialog>
+  <aside id="ai-panel" class="ai-panel" role="dialog" aria-labelledby="ai-title" aria-hidden="true" inert>
+    <div class="dialog-header"><h2 id="ai-title">💬 물리 선생님</h2><button id="ai-close" class="icon-button" aria-label="AI 선생님 닫기">×</button></div>
+    <div id="grade-buttons" class="segmented" role="group" aria-label="설명 수준"><button data-grade="초등" aria-pressed="false">초등</button><button data-grade="중등" aria-pressed="true">중등</button><button data-grade="고등" aria-pressed="false">고등</button></div>
+    <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div><p id="chat-loading" role="status" hidden>선생님이 생각하는 중... 🤔</p>
+    <div id="quick-questions" class="quick-questions"><button>쉽게 설명해줘</button><button>왜 이렇게 되는 거야?</button><button>실험 미션 하나 내줘</button></div>
+    <form id="chat-form"><label class="sr-only" for="chat-input">선생님에게 질문하기</label><input id="chat-input" maxlength="2000" autocomplete="off" placeholder="실험에 대해 물어보세요"><button id="chat-send" class="primary-button" type="submit">전송</button></form>
+  </aside>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <noscript><p class="noscript">이 실험실을 사용하려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
   <script type="module" src="./js/main.js"></script>

@@ -1,0 +1,11 @@
+# Netlify는 이 폴더의 HTML/CSS/JS를 그대로 배포합니다. 빌드 과정이 없습니다.
+[build]
+  base = "physics-playground-3d"
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
